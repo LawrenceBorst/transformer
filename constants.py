@@ -41,6 +41,16 @@ class MiscConstants(TypedDict):
     """
     DATASET_TEST_URL: str
 
+    """
+    The tokenization algorithm to use
+    """
+    TOKENIZATION_METHOD: str
+
+    """
+    The model folder for the sentencepiece model
+    """
+    SPM_FOLDER: str
+
 
 constants_paper: Constants = {
     "MAX_SAMPLES": None,
@@ -56,6 +66,8 @@ constants_local: Constants = {
 
 
 misc_constants: MiscConstants = {
+    "TOKENIZATION_METHOD": "bpe",
+    "SPM_FOLDER": "sentencepiece_model",
     "CORPUS_FOLDER": "corpus",
     "DATASET_TRAIN_URL": "https://huggingface.co/datasets/bentrevett/multi30k/resolve/main/train.jsonl",
     "DATASET_VALID_URL": "https://huggingface.co/datasets/bentrevett/multi30k/resolve/main/val.jsonl",
