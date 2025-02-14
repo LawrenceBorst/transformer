@@ -1,6 +1,7 @@
+import os
 from constants import constants_local, misc_constants
 from nlp_prep import download_corpora
-from data import save_tokenized_model
+from data import save_tokenized_model, TextData, Tokenizer
 
 
 def main():
@@ -19,6 +20,12 @@ def main():
         spm_folder=misc_constants["SPM_FOLDER"],
         avoid_overwrite=True,
     )
+
+    train_dataset = TextData(
+        dataset_path=os.path.join(misc_constants["CORPUS_FOLDER"], "train.txt"),
+    )
+
+    tokenizer = Tokenizer(spm_folder=misc_constants["SPM_FOLDER"])
 
     return
 

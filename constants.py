@@ -19,6 +19,11 @@ class Constants(TypedDict):
     """
     VOCAB_SIZE: int
 
+    """
+    The output dimension of all sublayers, as well as the embedding layer
+    """
+    OUTPUT_DIM: int
+
 
 class MiscConstants(TypedDict):
     """
@@ -54,12 +59,14 @@ class MiscConstants(TypedDict):
 
 constants_paper: Constants = {
     "MAX_SAMPLES": None,
+    "OUTPUT_DIM": 512,
     "SENTENCE_PAIRS_BATCH_SIZE": 25_000,
     "VOCAB_SIZE": 37_000,
 }
 
 constants_local: Constants = {
     "MAX_SAMPLES": 50,
+    "OUTPUT_DIM": 512,
     "SENTENCE_PAIRS_BATCH_SIZE": 10,
     "VOCAB_SIZE": 37_000,
 }
