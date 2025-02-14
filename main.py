@@ -2,6 +2,7 @@ import os
 from constants import constants_local, misc_constants
 from nlp_prep import download_corpora
 from data import save_tokenized_model, TextData, Tokenizer
+from model import InputEmbedding
 
 
 def main():
@@ -26,6 +27,14 @@ def main():
     )
 
     tokenizer = Tokenizer(spm_folder=misc_constants["SPM_FOLDER"])
+
+    x = tokenizer.encode(train_dataset[0])
+
+    input_embedding = InputEmbedding(
+        input_dim=constants_local["OUTPUT_DIM"],
+        vocab_size=constants_local["VOCAB_SIZE"],
+    )
+    input_embedding.forward(x)
 
     return
 
