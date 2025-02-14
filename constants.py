@@ -6,7 +6,7 @@ class Constants(TypedDict):
     The (maximum) number of sentence pairs in the dataset (for quick training)
     """
 
-    MAX_SAMPLES: Optional[int]
+    MAX_SAMPLES: Optional[int]  # TODO Currently unused
 
     """
     The approximate number of tokens in a sentence pair batch
