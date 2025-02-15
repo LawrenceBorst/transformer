@@ -40,8 +40,9 @@ def main():
 
     attention = Attention(
         model_dim=constants_local["OUTPUT_DIM"],
-        w_q_k=constants_local["DIM_K_Q"] * constants_local["HEADS"],
-        w_v=constants_local["DIM_V"] * constants_local["HEADS"],
+        w_q_k=constants_local["DIM_K_Q"],
+        w_v=constants_local["DIM_V"],
+        heads=constants_local["HEADS"],
     )
     x = attention.forward(x)
 

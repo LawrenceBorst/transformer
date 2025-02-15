@@ -4,42 +4,71 @@ import torch
 
 class Attention(torch.nn.Module):
     """
-    A trainable attention module
+    A trainable multi-head attention module
+
+    # TODO Vectorise the list comprehensions
 
     Args:
-        model_dim: the input and output dimension
-        w_q_k: the query/key dimension
-        w_v: the value dimension
+        model_dim (int): the input and output dimension
+        w_q_k (int): the query/key dimension
+        w_v (int): the value dimension
+        heads (int): number of heads
     """
 
-    _query: torch.nn.Linear
-    _key: torch.nn.Linear
-    _value: torch.nn.Linear
+    _query_matrices: list[torch.nn.Linear]
+    _key_matrices: list[torch.nn.Linear]
+    _value_matrices: list[torch.nn.Linear]
     _w_q_k: int
+    _heads: int
 
-    def __init__(self, model_dim: int, w_q_k: int, w_v: int) -> None:
+    def __init__(self, model_dim: int, w_q_k: int, w_v: int, heads: int) -> None:
         super().__init__()
 
         # Bias not used in the paper
-        self._query = torch.nn.Linear(model_dim, w_q_k, bias=False)
-        self._key = torch.nn.Linear(model_dim, w_q_k, bias=False)
-        self._value = torch.nn.Linear(model_dim, w_v, bias=False)
+        self._query_matrices = [
+            torch.nn.Linear(model_dim, w_q_k, bias=False) for _ in range(heads)
+        ]
+        self._key_matrices = [
+            torch.nn.Linear(model_dim, w_q_k, bias=False) for _ in range(heads)
+        ]
+        self._value_matrices = [
+            torch.nn.Linear(model_dim, w_v, bias=False) for _ in range(heads)
+        ]
+        self._output = torch.nn.Linear(w_v * heads, model_dim, bias=False)
 
         self._w_q_k = w_q_k
+        self._heads = heads
 
         # We opt for He initialization, as the linear layers are followed by a ReLU non-linearity as per the paper
-        torch.nn.init.kaiming_normal_(self._query.weight, nonlinearity="relu")
-        torch.nn.init.kaiming_normal_(self._key.weight, nonlinearity="relu")
-        torch.nn.init.kaiming_normal_(self._value.weight, nonlinearity="relu")
+        for h in range(heads):
+            torch.nn.init.kaiming_normal_(
+                self._query_matrices[h].weight, nonlinearity="relu"
+            )
+            torch.nn.init.kaiming_normal_(
+                self._key_matrices[h].weight, nonlinearity="relu"
+            )
+            torch.nn.init.kaiming_normal_(
+                self._value_matrices[h].weight, nonlinearity="relu"
+            )
+
+        torch.nn.init.kaiming_normal_(self._output.weight, nonlinearity="relu")
 
         return
-    
-    def forward(self, x: torch.Tensor) -> torch.Tensor:
-        q = self._query(x)
-        k = self._key(x)
-        v = self._value(x)
 
+    def _attention(
+        self, q: torch.Tensor, k: torch.Tensor, v: torch.Tensor
+    ) -> torch.Tensor:
         scores: torch.Tensor = q @ k.transpose(-2, -1) / math.sqrt(self._w_q_k)
-        attention: torch.Tensor = torch.softmax(scores, dim=-1)
 
-        return attention @ v
+        return torch.softmax(scores, dim=-1) @ v
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        q = [q(x) for q in self._query_matrices]
+        k = [k(x) for k in self._key_matrices]
+        v = [v(x) for v in self._value_matrices]
+
+        multihead: torch.Tensor = torch.concat(
+            [self._attention(q[h], k[h], v[h]) for h in range(self._heads)], dim=-1
+        )
+
+        return self._output(multihead)
