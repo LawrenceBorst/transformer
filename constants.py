@@ -33,6 +33,11 @@ class Constants(TypedDict):
     MAX_SAMPLES: Optional[int]  # TODO Currently unused
 
     """
+    The number of encoder layers
+    """
+    N_ENCODER_LAYERS: int
+
+    """
     The approximate number of tokens in a sentence pair batch
     """
 
@@ -88,6 +93,7 @@ constants_paper: Constants = {
     "HEADS": 8,
     "HIDDEN_DIM": 2048,
     "MAX_SAMPLES": None,
+    "N_ENCODER_LAYERS": 6,
     "OUTPUT_DIM": 512,
     "SENTENCE_PAIRS_BATCH_SIZE": 25_000,
     "VOCAB_SIZE": 37_000,
@@ -99,6 +105,7 @@ constants_local: Constants = {
     "HEADS": 8,
     "HIDDEN_DIM": 2048,
     "MAX_SAMPLES": 50,
+    "N_ENCODER_LAYERS": 6,
     "OUTPUT_DIM": 512,
     "SENTENCE_PAIRS_BATCH_SIZE": 10,
     "VOCAB_SIZE": 37_000,
