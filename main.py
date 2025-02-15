@@ -1,7 +1,6 @@
 import os
 from constants import constants_local, misc_constants
-from model.attention import Attention
-from model.feed_forward import FeedForward
+from model import EncoderLayer
 from nlp_prep import download_corpora
 from data import save_tokenized_model, TextData, Tokenizer
 from model import InputEmbedding
@@ -39,20 +38,15 @@ def main():
 
     x = input_embedding.forward(x)
 
-    attention = Attention(
+    encoder_layer = EncoderLayer(
         model_dim=constants_local["OUTPUT_DIM"],
+        hidden_dim=constants_local["HIDDEN_DIM"],
         w_q_k=constants_local["DIM_K_Q"],
         w_v=constants_local["DIM_V"],
         heads=constants_local["HEADS"],
     )
-    x = attention.forward(x)
 
-    feedforward = FeedForward(
-        model_dim=constants_local["OUTPUT_DIM"],
-        hidden_dim=constants_local["HIDDEN_DIM"],
-    )
-
-    x = feedforward.forward(x)
+    x = encoder_layer(x)
 
     return
 
