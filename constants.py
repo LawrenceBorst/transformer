@@ -21,6 +21,12 @@ class Constants(TypedDict):
     HEADS: int
 
     """
+    The hidden dimension in the feedforward modules
+    """
+
+    HIDDEN_DIM: int
+
+    """
     The (maximum) number of sentence pairs in the dataset (for quick training)
     """
 
@@ -80,6 +86,7 @@ constants_paper: Constants = {
     "DIM_K_Q": 64,
     "DIM_V": 64,
     "HEADS": 8,
+    "HIDDEN_DIM": 2048,
     "MAX_SAMPLES": None,
     "OUTPUT_DIM": 512,
     "SENTENCE_PAIRS_BATCH_SIZE": 25_000,
@@ -90,6 +97,7 @@ constants_local: Constants = {
     "DIM_K_Q": 64,
     "DIM_V": 64,
     "HEADS": 8,
+    "HIDDEN_DIM": 2048,
     "MAX_SAMPLES": 50,
     "OUTPUT_DIM": 512,
     "SENTENCE_PAIRS_BATCH_SIZE": 10,
