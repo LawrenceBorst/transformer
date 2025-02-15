@@ -13,6 +13,7 @@ class Attention(torch.nn.Module):
         w_q_k (int): the query/key dimension
         w_v (int): the value dimension
         heads (int): number of heads
+        masked (bool): if using masked attention. Defaults to false
     """
 
     _query_matrices: list[torch.nn.Linear]
@@ -20,8 +21,11 @@ class Attention(torch.nn.Module):
     _value_matrices: list[torch.nn.Linear]
     _w_q_k: int
     _heads: int
+    _masked: bool
 
-    def __init__(self, model_dim: int, w_q_k: int, w_v: int, heads: int) -> None:
+    def __init__(
+        self, model_dim: int, w_q_k: int, w_v: int, heads: int, masked: bool = False
+    ) -> None:
         super().__init__()
 
         # Bias not used in the paper
@@ -38,6 +42,7 @@ class Attention(torch.nn.Module):
 
         self._w_q_k = w_q_k
         self._heads = heads
+        self._masked = masked
 
         # We opt for He initialization, as the linear layers are followed by a ReLU non-linearity as per the paper
         for h in range(heads):
@@ -59,6 +64,11 @@ class Attention(torch.nn.Module):
         self, q: torch.Tensor, k: torch.Tensor, v: torch.Tensor
     ) -> torch.Tensor:
         scores: torch.Tensor = q @ k.transpose(-2, -1) / math.sqrt(self._w_q_k)
+
+        if self._masked:
+            mask_dim: int = q.shape[0]
+            mask: torch.tensor = torch.tril(torch.ones(mask_dim, mask_dim))
+            scores = scores.masked_fill(mask == 0, float("-inf"))
 
         return torch.softmax(scores, dim=-1) @ v
 
