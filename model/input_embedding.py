@@ -7,9 +7,10 @@ class InputEmbedding(torch.nn.Module):
     This class provides input embeddings for a transformer model. It combines token embeddings with positional encodings to retain the order of tokens.
 
     Args:
-        input_dim (int): the size of the input 
+        input_dim (int): the size of the input
         vocab_size (int): the size of the vocabulary
     """
+
     _input_embedding: torch.nn.Embedding
     _model_dim: int
 

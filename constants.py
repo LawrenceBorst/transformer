@@ -3,6 +3,24 @@ from typing import TypedDict, Optional
 
 class Constants(TypedDict):
     """
+    The 1st dimension of the key and query matrices
+    """
+
+    DIM_K_Q: int
+
+    """
+    The 1st dimension of the value matrices
+    """
+
+    DIM_V: int
+
+    """
+    The number of attention heads
+    """
+
+    HEADS: int
+
+    """
     The (maximum) number of sentence pairs in the dataset (for quick training)
     """
 
@@ -22,6 +40,7 @@ class Constants(TypedDict):
     """
     The output dimension of all sublayers, as well as the embedding layer
     """
+
     OUTPUT_DIM: int
 
 
@@ -58,6 +77,9 @@ class MiscConstants(TypedDict):
 
 
 constants_paper: Constants = {
+    "DIM_K_Q": 64,
+    "DIM_V": 64,
+    "HEADS": 8,
     "MAX_SAMPLES": None,
     "OUTPUT_DIM": 512,
     "SENTENCE_PAIRS_BATCH_SIZE": 25_000,
@@ -65,6 +87,9 @@ constants_paper: Constants = {
 }
 
 constants_local: Constants = {
+    "DIM_K_Q": 64,
+    "DIM_V": 64,
+    "HEADS": 8,
     "MAX_SAMPLES": 50,
     "OUTPUT_DIM": 512,
     "SENTENCE_PAIRS_BATCH_SIZE": 10,

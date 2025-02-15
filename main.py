@@ -1,5 +1,6 @@
 import os
 from constants import constants_local, misc_constants
+from model.attention import Attention
 from nlp_prep import download_corpora
 from data import save_tokenized_model, TextData, Tokenizer
 from model import InputEmbedding
@@ -34,7 +35,15 @@ def main():
         input_dim=constants_local["OUTPUT_DIM"],
         vocab_size=constants_local["VOCAB_SIZE"],
     )
-    input_embedding.forward(x)
+
+    x = input_embedding.forward(x)
+
+    attention = Attention(
+        model_dim=constants_local["OUTPUT_DIM"],
+        w_q_k=constants_local["DIM_K_Q"] * constants_local["HEADS"],
+        w_v=constants_local["DIM_V"] * constants_local["HEADS"],
+    )
+    x = attention.forward(x)
 
     return
 
