@@ -1,6 +1,6 @@
 import torch
 from .feed_forward import FeedForward
-from .attention import Attention
+from .self_attention import SelfAttention
 
 
 class EncoderLayer(torch.nn.Module):
@@ -15,7 +15,7 @@ class EncoderLayer(torch.nn.Module):
         heads (int): number of attention
     """
 
-    _attention: Attention
+    _attention: SelfAttention
     _feedforward: FeedForward
     _ln_1: torch.nn.LayerNorm
     _ln_2: torch.nn.LayerNorm
@@ -25,7 +25,7 @@ class EncoderLayer(torch.nn.Module):
     ) -> None:
         super().__init__()
 
-        self._attention = Attention(
+        self._attention = SelfAttention(
             model_dim=model_dim, w_q_k=w_q_k, w_v=w_v, heads=heads
         )
         self._feedforward = FeedForward(

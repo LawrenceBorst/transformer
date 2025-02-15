@@ -2,9 +2,9 @@ import math
 import torch
 
 
-class Attention(torch.nn.Module):
+class SelfAttention(torch.nn.Module):
     """
-    A trainable multi-head attention module
+    A trainable multi-head self-attention module
 
     # TODO Vectorise the list comprehensions
 
