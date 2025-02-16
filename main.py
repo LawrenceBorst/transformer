@@ -1,6 +1,6 @@
 import os
 from constants import constants_local, misc_constants
-from model import Encoder, DecoderLayer
+from model import Encoder, Decoder
 from nlp_prep import download_corpora
 from data import save_tokenized_model, TextData, Tokenizer
 from model import InputEmbedding
@@ -49,14 +49,6 @@ def main():
 
     x_encoder = encoder(x_encoder)
 
-    decoder_layer = DecoderLayer(
-        model_dim=constants_local["OUTPUT_DIM"],
-        hidden_dim=constants_local["HIDDEN_DIM"],
-        w_q_k=constants_local["DIM_K_Q"],
-        w_v=constants_local["DIM_V"],
-        heads=constants_local["HEADS"],
-    )
-
     tokenizer.shift_right = True
     x_decoder = tokenizer.encode(train_dataset[0])
 
@@ -67,7 +59,16 @@ def main():
 
     x_decoder = output_embedding(x_decoder)
 
-    x_decoder = decoder_layer(x_decoder, x_encoder)
+    decoder = Decoder(
+        n=constants_local["N_ENCODER_LAYERS"],
+        model_dim=constants_local["OUTPUT_DIM"],
+        hidden_dim=constants_local["HIDDEN_DIM"],
+        w_q_k=constants_local["DIM_K_Q"],
+        w_v=constants_local["DIM_V"],
+        heads=constants_local["HEADS"],
+    )
+
+    x_decoder = decoder(x_decoder, x_encoder)
 
     return
 
