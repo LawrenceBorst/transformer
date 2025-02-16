@@ -53,4 +53,4 @@ class InputEmbedding(torch.nn.Module):
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         pos_encoding: torch.Tensor = self._get_pos_encoding(len(x))
 
-        return self._input_embedding(x) + pos_encoding
+        return self._input_embedding(x) * math.sqrt(self._model_dim) + pos_encoding
