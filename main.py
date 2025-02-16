@@ -1,9 +1,8 @@
 import os
 from constants import constants_local, misc_constants
-from model import Encoder, Decoder
 from nlp_prep import download_corpora
 from data import save_tokenized_model, TextData, Tokenizer
-from model import InputEmbedding
+from model import Transformer
 
 
 def main():
@@ -29,46 +28,21 @@ def main():
 
     tokenizer = Tokenizer(spm_folder=misc_constants["SPM_FOLDER"])
 
-    x_encoder = tokenizer.encode(train_dataset[0])
-
-    input_embedding = InputEmbedding(
-        input_dim=constants_local["OUTPUT_DIM"],
+    transformer = Transformer(
+        output_dim=constants_local["OUTPUT_DIM"],
         vocab_size=constants_local["VOCAB_SIZE"],
-    )
-
-    x_encoder = input_embedding(x_encoder)
-
-    encoder = Encoder(
-        n=constants_local["N_ENCODER_LAYERS"],
-        model_dim=constants_local["OUTPUT_DIM"],
+        n_encoder_layers=constants_local["N_ENCODER_LAYERS"],
         hidden_dim=constants_local["HIDDEN_DIM"],
         w_q_k=constants_local["DIM_K_Q"],
         w_v=constants_local["DIM_V"],
         heads=constants_local["HEADS"],
     )
 
-    x_encoder = encoder(x_encoder)
-
-    tokenizer.shift_right = True
-    x_decoder = tokenizer.encode(train_dataset[0])
-
-    output_embedding = InputEmbedding(
-        input_dim=constants_local["OUTPUT_DIM"],
-        vocab_size=constants_local["VOCAB_SIZE"],
+    x_in, x_out = tokenizer.encode(train_dataset[0]), tokenizer.encode(
+        train_dataset[0], shift_right=True
     )
 
-    x_decoder = output_embedding(x_decoder)
-
-    decoder = Decoder(
-        n=constants_local["N_ENCODER_LAYERS"],
-        model_dim=constants_local["OUTPUT_DIM"],
-        hidden_dim=constants_local["HIDDEN_DIM"],
-        w_q_k=constants_local["DIM_K_Q"],
-        w_v=constants_local["DIM_V"],
-        heads=constants_local["HEADS"],
-    )
-
-    x_decoder = decoder(x_decoder, x_encoder)
+    x = transformer(x_in, x_out)
 
     return
 
