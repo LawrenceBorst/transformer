@@ -4,6 +4,20 @@ As practice with Pytorch, among other things, I decided to implement the transfo
 
 I highly recommend reading the chapter on transformers in Deep Learning<sup>[2]</sup> for an introduction read alongside this paper, offering a motivation for the self-attention equation. The more up-to-date book by Prince<sup>[3]</sup> offers an intuitive, more visual—albeit less detailed—exposition of this piece of math.
 
+# Run the Code
+First install packages with
+```
+pip install -r requirements.txt
+```
+
+With VSCode, you can simply run the debug scripts provided in the launch.json file, otherwise navigate to your project folder and type
+
+```
+source bin/venv/activate
+
+python -m scripts.main
+```
+
 # Citations
 
 1. Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N. Gomez, Lukasz Kaiser, & Illia Polosukhin. (2023). Attention Is All You Need.
