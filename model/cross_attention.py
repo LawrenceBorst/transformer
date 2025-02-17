@@ -12,12 +12,9 @@ class CrossAttention(torch.nn.Module, Attention):
         w_q_k (int): the query/key dimension
         w_v (int): the value dimension
         heads (int): number of heads
-        masked (bool): if using masked attention. Defaults to false
     """
 
-    def __init__(
-        self, model_dim: int, w_q_k: int, w_v: int, heads: int, masked: bool = False
-    ) -> None:
+    def __init__(self, model_dim: int, w_q_k: int, w_v: int, heads: int) -> None:
         torch.nn.Module.__init__(self)
         Attention.__init__(
             self,
@@ -25,7 +22,7 @@ class CrossAttention(torch.nn.Module, Attention):
             w_q_k=w_q_k,
             w_v=w_v,
             heads=heads,
-            masked=masked,
+            masked=False,
         )
 
         return

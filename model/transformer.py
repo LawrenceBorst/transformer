@@ -79,4 +79,4 @@ class Transformer(torch.nn.Module):
 
         x_output = self._linear(x_output)
 
-        return torch.softmax(x_output, dim=-1)
+        return x_output

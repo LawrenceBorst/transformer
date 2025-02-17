@@ -46,7 +46,6 @@ class DecoderLayer(torch.nn.Module):
             w_q_k=w_q_k,
             w_v=w_v,
             heads=heads,
-            masked=False,
         )
         self._feedforward = FeedForward(
             model_dim=model_dim,
