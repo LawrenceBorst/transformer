@@ -33,6 +33,12 @@ class Constants(TypedDict):
     DIM_V: int
 
     """
+    Dropout probability
+    """
+
+    DROPOUT: float
+
+    """
     The number of attention heads
     """
 
@@ -135,6 +141,7 @@ constants_paper: Constants = {
     "BATCH_SIZE_TOKENS": 25_000,
     "DIM_K_Q": 64,
     "DIM_V": 64,
+    "DROPOUT": 0.1,
     "HEADS": 8,
     "HIDDEN_DIM": 2_048,
     "LABEL_SMOOTHING_EPSILON": 0.1,
@@ -152,6 +159,7 @@ constants_local: Constants = {
     "BATCH_SIZE_TOKENS": 100,
     "DIM_K_Q": 64,
     "DIM_V": 64,
+    "DROPOUT": 0.1,
     "HEADS": 8,
     "HIDDEN_DIM": 2_048,
     "LABEL_SMOOTHING_EPSILON": 0.1,

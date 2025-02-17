@@ -17,6 +17,7 @@ class Transformer(torch.nn.Module):
         w_q_k (int): The dimension of the query and key matrices
         w_v (int): The dimension of the value matrices
         heads (int): The number of attention heads
+        dropout (float): Dropout probability for all dropout modules
         device (torch.device): the torch device
     """
 
@@ -35,6 +36,7 @@ class Transformer(torch.nn.Module):
         w_q_k: int,
         w_v: int,
         heads: int,
+        dropout: float,
         device: torch.device,
     ) -> None:
         super().__init__()
@@ -42,11 +44,13 @@ class Transformer(torch.nn.Module):
         self._input_embedding = InputEmbedding(
             input_dim=output_dim,
             vocab_size=vocab_size,
+            dropout=dropout,
             device=device,
         )
         self._output_embedding = InputEmbedding(
             input_dim=output_dim,
             vocab_size=vocab_size,
+            dropout=dropout,
             device=device,
         )
 
@@ -57,6 +61,7 @@ class Transformer(torch.nn.Module):
             w_q_k=w_q_k,
             w_v=w_v,
             heads=heads,
+            dropout=dropout,
             device=device,
         )
 
@@ -67,6 +72,7 @@ class Transformer(torch.nn.Module):
             w_q_k=w_q_k,
             w_v=w_v,
             heads=heads,
+            dropout=dropout,
             device=device,
         )
 

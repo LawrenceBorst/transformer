@@ -9,14 +9,22 @@ class InputEmbedding(torch.nn.Module):
     Args:
         input_dim (int): the size of the input
         vocab_size (int): the size of the vocabulary
+        dropout (float): dropout probability
         device (torch.device): the torch device
     """
 
     _input_embedding: torch.nn.Embedding
     _model_dim: int
+    _dropout: torch.nn.Dropout
     _device: torch.device
 
-    def __init__(self, input_dim: int, vocab_size: int, device: torch.device) -> None:
+    def __init__(
+        self,
+        input_dim: int,
+        vocab_size: int,
+        dropout: float,
+        device: torch.device,
+    ) -> None:
         super().__init__()
 
         self._input_embedding = torch.nn.Embedding(
@@ -25,6 +33,7 @@ class InputEmbedding(torch.nn.Module):
             device=device,
         )
         self._model_dim = input_dim
+        self._dropout = torch.nn.Dropout(p=dropout)
         self._device = device
 
         return
@@ -58,4 +67,6 @@ class InputEmbedding(torch.nn.Module):
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         pos_encoding: torch.Tensor = self._get_pos_encoding(len(x))
 
-        return self._input_embedding(x) * math.sqrt(self._model_dim) + pos_encoding
+        return self._dropout(
+            self._input_embedding(x) * math.sqrt(self._model_dim) + pos_encoding
+        )

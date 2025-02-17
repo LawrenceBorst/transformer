@@ -13,6 +13,7 @@ class EncoderLayer(torch.nn.Module):
         w_q_k (int): the 1st dimension of the query and key matrices
         w_v (int): the 1st dimension of the value matrix
         heads (int): number of attention
+        dropout (float): dropout probability
         device (torch.device): the torch device
     """
 
@@ -20,6 +21,7 @@ class EncoderLayer(torch.nn.Module):
     _feedforward: FeedForward
     _ln_1: torch.nn.LayerNorm
     _ln_2: torch.nn.LayerNorm
+    _dropout: torch.nn.Dropout
 
     def __init__(
         self,
@@ -28,6 +30,7 @@ class EncoderLayer(torch.nn.Module):
         w_q_k: int,
         w_v: int,
         heads: int,
+        dropout: float,
         device: torch.device,
     ) -> None:
         super().__init__()
@@ -55,11 +58,14 @@ class EncoderLayer(torch.nn.Module):
             elementwise_affine=False,
             device=device,
         )
+        self._dropout = torch.nn.Dropout(
+            p=dropout,
+        )
 
         return
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
-        x = self._ln_1(x + self._attention(x))
-        x = self._ln_2(x + self._feedforward(x))
+        x = self._ln_1(x + self._attention(self._dropout(x)))
+        x = self._ln_2(x + self._feedforward(self._dropout(x)))
 
         return x

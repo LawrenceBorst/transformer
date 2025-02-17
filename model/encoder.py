@@ -13,6 +13,7 @@ class Encoder(torch.nn.Module):
         w_q_k (int): the 1st dimension of the query and key matrices
         w_v (int): the 1st dimension of the value matrix
         heads (int): number of attention
+        dropout (float): dropout probability
         device (torch.device): the torch device
     """
 
@@ -26,6 +27,7 @@ class Encoder(torch.nn.Module):
         w_q_k: int,
         w_v: int,
         heads: int,
+        dropout: float,
         device: torch.device,
     ) -> None:
         super().__init__()
@@ -38,6 +40,7 @@ class Encoder(torch.nn.Module):
                     w_q_k=w_q_k,
                     w_v=w_v,
                     heads=heads,
+                    dropout=dropout,
                     device=device,
                 )
                 for _ in range(n)

@@ -20,6 +20,7 @@ class DecoderLayer(torch.nn.Module):
         w_q_k (int): the 1st dimension of the query and key matrices
         w_v (int): the 1st dimension of the value matrix
         heads (int): number of attention
+        dropout (float): dropout probability
     """
 
     _masked_self_attention: SelfAttention
@@ -28,6 +29,7 @@ class DecoderLayer(torch.nn.Module):
     _ln_1: torch.nn.LayerNorm
     _ln_2: torch.nn.LayerNorm
     _ln_3: torch.nn.LayerNorm
+    _dropout: torch.nn.Dropout
 
     def __init__(
         self,
@@ -36,6 +38,7 @@ class DecoderLayer(torch.nn.Module):
         w_q_k: int,
         w_v: int,
         heads: int,
+        dropout: float,
         device: torch.device,
     ) -> None:
         super().__init__()
@@ -74,13 +77,15 @@ class DecoderLayer(torch.nn.Module):
             elementwise_affine=False,
         )
 
+        self._dropout = torch.nn.Dropout(p=dropout)
+
         return
 
     def forward(self, x: torch.Tensor, encoder_output: torch.Tensor) -> torch.Tensor:
-        x = self._ln_1(x + self._masked_self_attention(x))
+        x = self._ln_1(x + self._masked_self_attention(self._dropout(x)))
 
-        x = self._ln_2(x + self._cross_attention(x, encoder_output))
+        x = self._ln_2(x + self._dropout(self._cross_attention(x, encoder_output)))
 
-        x = self._ln_3(x + self._feedforward(x))
+        x = self._ln_3(x + self._dropout(self._feedforward(x)))
 
         return x

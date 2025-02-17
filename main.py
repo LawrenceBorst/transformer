@@ -42,6 +42,7 @@ def main():
         w_q_k=constants_local["DIM_K_Q"],
         w_v=constants_local["DIM_V"],
         heads=constants_local["HEADS"],
+        dropout=constants_local["DROPOUT"],
         device=device,
     )
 
