@@ -48,7 +48,9 @@ def main():
         paper_batch_size=constants_paper["BATCH_SIZE_TOKENS"],
     )
 
-    loss_fn = get_loss_function()
+    loss_fn = get_loss_function(
+        label_smoothing=constants_local["LABEL_SMOOTHING_EPSILON"],
+    )
 
     train_loader, valid_loader, test_loader = get_data_loaders(
         misc_constants["CORPUS_FOLDER"],

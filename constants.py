@@ -45,6 +45,12 @@ class Constants(TypedDict):
     HIDDEN_DIM: int
 
     """
+    Label smoothing epsilon
+    """
+
+    LABEL_SMOOTHING_EPSILON: float
+
+    """
     The (maximum) number of sentence pairs in the dataset (for quick training)
     """
 
@@ -125,6 +131,7 @@ constants_paper: Constants = {
     "DIM_V": 64,
     "HEADS": 8,
     "HIDDEN_DIM": 2_048,
+    "LABEL_SMOOTHING_EPSILON": 0.1,
     "MAX_SAMPLES": None,
     "N_ENCODER_LAYERS": 6,
     "OUTPUT_DIM": 512,
@@ -141,6 +148,7 @@ constants_local: Constants = {
     "DIM_V": 64,
     "HEADS": 8,
     "HIDDEN_DIM": 2_048,
+    "LABEL_SMOOTHING_EPSILON": 0.1,
     "MAX_SAMPLES": 250,
     "N_ENCODER_LAYERS": 6,
     "OUTPUT_DIM": 512,

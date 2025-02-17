@@ -72,7 +72,8 @@ class Engine:
                 token_preds = self._model(tokens_in, tokens_out)
 
                 loss: torch.Tensor = self._loss_fn(
-                    input=token_preds[1:], target=tokens_out.long()[1:]
+                    input=token_preds[1:],
+                    target=tokens_out.long()[1:],
                 )
 
                 total_loss += loss.item()
@@ -105,7 +106,8 @@ class Engine:
             token_preds = self._model(tokens_in, tokens_out)
 
             loss: torch.Tensor = self._loss_fn(
-                input=token_preds[1:], target=tokens_out.long()[1:]
+                input=token_preds[1:],
+                target=tokens_out.long()[1:],
             )
 
             total_loss += loss.item()
