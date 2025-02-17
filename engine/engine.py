@@ -12,9 +12,9 @@ class Engine:
 
     Args:
         model (torch.nn.Module): The model to train
-        train_loader (torch.utils.data.DataLoader): The training data loader
-        valid_loader (torch.utils.data.DataLoader): the validation data loader
-        test_loader (torch.utils.data.DataLoader): the test data loader
+        train_loader (torch.utils.data.DataLoader[str]): The training data loader
+        valid_loader (torch.utils.data.DataLoader[str]): the validation data loader
+        test_loader (torch.utils.data.DataLoader[str]): the test data loader
         scheduler (torch.optim.lr_scheduler): the optimiser scheduler
         optimizer (torch.optim.Optimizer): the optimizer to use
         loss_fn (torch.nn.Module): the loss function to use
@@ -24,9 +24,9 @@ class Engine:
     """
 
     _model: torch.nn.Module
-    _train_loader: torch.utils.data.DataLoader
-    _valid_loader: torch.utils.data.DataLoader
-    _test_loader: torch.utils.data.DataLoader
+    _train_loader: torch.utils.data.DataLoader[str]
+    _valid_loader: torch.utils.data.DataLoader[str]
+    _test_loader: torch.utils.data.DataLoader[str]
     _optimizer: torch.optim.Optimizer
     _scheduler: torch.optim.lr_scheduler
     _loss_fn: torch.nn.CrossEntropyLoss
@@ -36,9 +36,9 @@ class Engine:
     def __init__(
         self,
         model: torch.nn.Module,
-        train_loader: torch.utils.data.DataLoader,
-        valid_loader: torch.utils.data.DataLoader,
-        test_loader: torch.utils.data.DataLoader,
+        train_loader: torch.utils.data.DataLoader[str],
+        valid_loader: torch.utils.data.DataLoader[str],
+        test_loader: torch.utils.data.DataLoader[str],
         optimizer: torch.optim.Optimizer,
         scheduler: torch.optim.lr_scheduler,
         loss_fn: torch.nn.CrossEntropyLoss,
@@ -64,10 +64,10 @@ class Engine:
 
         with torch.inference_mode():
             for idx, y in enumerate(self._valid_loader):
-                tokens_in: torch.IntTensor = self._tokenizer.encode(y)
+                tokens_in: torch.IntTensor = self._tokenizer.encode(y).to(self._device)
                 tokens_out: torch.IntTensor = self._tokenizer.encode(
                     y, shift_right=True
-                )
+                ).to(self._device)
 
                 token_preds = self._model(tokens_in, tokens_out)
 
@@ -97,8 +97,10 @@ class Engine:
         last_reported_loss: float = 0
 
         for idx, y in tqdm(enumerate(self._train_loader)):
-            tokens_in: torch.IntTensor = self._tokenizer.encode(y)
-            tokens_out: torch.IntTensor = self._tokenizer.encode(y, shift_right=True)
+            tokens_in: torch.IntTensor = self._tokenizer.encode(y).to(self._device)
+            tokens_out: torch.IntTensor = self._tokenizer.encode(
+                y, shift_right=True
+            ).to(self._device)
 
             token_preds = self._model(tokens_in, tokens_out)
 

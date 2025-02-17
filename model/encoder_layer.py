@@ -13,6 +13,7 @@ class EncoderLayer(torch.nn.Module):
         w_q_k (int): the 1st dimension of the query and key matrices
         w_v (int): the 1st dimension of the value matrix
         heads (int): number of attention
+        device (torch.device): the torch device
     """
 
     _attention: SelfAttention
@@ -21,23 +22,38 @@ class EncoderLayer(torch.nn.Module):
     _ln_2: torch.nn.LayerNorm
 
     def __init__(
-        self, model_dim: int, hidden_dim: int, w_q_k: int, w_v: int, heads: int
+        self,
+        model_dim: int,
+        hidden_dim: int,
+        w_q_k: int,
+        w_v: int,
+        heads: int,
+        device: torch.device,
     ) -> None:
         super().__init__()
 
         self._attention = SelfAttention(
-            model_dim=model_dim, w_q_k=w_q_k, w_v=w_v, heads=heads
+            model_dim=model_dim,
+            w_q_k=w_q_k,
+            w_v=w_v,
+            heads=heads,
+            device=device,
         )
         self._feedforward = FeedForward(
             model_dim=model_dim,
             hidden_dim=hidden_dim,
+            device=device,
         )
         # No mention of learnable layer norm in the paper
         self._ln_1 = torch.nn.LayerNorm(
-            normalized_shape=model_dim, elementwise_affine=False
+            normalized_shape=model_dim,
+            elementwise_affine=False,
+            device=device,
         )
         self._ln_2 = torch.nn.LayerNorm(
-            normalized_shape=model_dim, elementwise_affine=False
+            normalized_shape=model_dim,
+            elementwise_affine=False,
+            device=device,
         )
 
         return

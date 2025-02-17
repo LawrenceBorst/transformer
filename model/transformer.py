@@ -17,6 +17,7 @@ class Transformer(torch.nn.Module):
         w_q_k (int): The dimension of the query and key matrices
         w_v (int): The dimension of the value matrices
         heads (int): The number of attention heads
+        device (torch.device): the torch device
     """
 
     _input_embedding: InputEmbedding
@@ -34,16 +35,19 @@ class Transformer(torch.nn.Module):
         w_q_k: int,
         w_v: int,
         heads: int,
+        device: torch.device,
     ) -> None:
         super().__init__()
 
         self._input_embedding = InputEmbedding(
             input_dim=output_dim,
             vocab_size=vocab_size,
+            device=device,
         )
         self._output_embedding = InputEmbedding(
             input_dim=output_dim,
             vocab_size=vocab_size,
+            device=device,
         )
 
         self._encoder = Encoder(
@@ -53,6 +57,7 @@ class Transformer(torch.nn.Module):
             w_q_k=w_q_k,
             w_v=w_v,
             heads=heads,
+            device=device,
         )
 
         self._decoder = Decoder(
@@ -62,9 +67,14 @@ class Transformer(torch.nn.Module):
             w_q_k=w_q_k,
             w_v=w_v,
             heads=heads,
+            device=device,
         )
 
-        self._linear = torch.nn.Linear(output_dim, vocab_size)
+        self._linear = torch.nn.Linear(
+            output_dim,
+            vocab_size,
+            device=device,
+        )
 
         return
 

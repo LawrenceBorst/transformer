@@ -13,12 +13,20 @@ class Encoder(torch.nn.Module):
         w_q_k (int): the 1st dimension of the query and key matrices
         w_v (int): the 1st dimension of the value matrix
         heads (int): number of attention
+        device (torch.device): the torch device
     """
 
     _encoder_layers: torch.nn.ModuleList
 
     def __init__(
-        self, n: int, model_dim: int, hidden_dim: int, w_q_k: int, w_v: int, heads: int
+        self,
+        n: int,
+        model_dim: int,
+        hidden_dim: int,
+        w_q_k: int,
+        w_v: int,
+        heads: int,
+        device: torch.device,
     ) -> None:
         super().__init__()
 
@@ -30,6 +38,7 @@ class Encoder(torch.nn.Module):
                     w_q_k=w_q_k,
                     w_v=w_v,
                     heads=heads,
+                    device=device,
                 )
                 for _ in range(n)
             ]

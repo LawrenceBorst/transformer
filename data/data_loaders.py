@@ -1,13 +1,19 @@
 import os
 from typing import Optional, Tuple
+import torch
 from torch.utils.data.dataloader import DataLoader
 
 from data.dataset import TextData
 
 
 def get_data_loaders(
-    corpus_folder: str, max_samples: Optional[int]
-) -> Tuple[DataLoader, DataLoader, DataLoader]:
+    corpus_folder: str,
+    max_samples: Optional[int],
+) -> Tuple[
+    DataLoader[str],
+    DataLoader[str],
+    DataLoader[str],
+]:
     train_dataset = TextData(
         dataset_path=os.path.join(corpus_folder, "train.txt"),
         max_samples=max_samples,

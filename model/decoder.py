@@ -13,6 +13,7 @@ class Decoder(torch.nn.Module):
         w_q_k (int): the 1st dimension of the query and key matrices
         w_v (int): the 1st dimension of the value matrix
         heads (int): number of attention
+        device (torch.device): the torch device
     """
 
     _decoder_layers: torch.nn.ModuleList
@@ -25,6 +26,7 @@ class Decoder(torch.nn.Module):
         w_q_k: int,
         w_v: int,
         heads: int,
+        device: torch.device,
     ) -> None:
         super().__init__()
 
@@ -36,6 +38,7 @@ class Decoder(torch.nn.Module):
                     w_q_k=w_q_k,
                     w_v=w_v,
                     heads=heads,
+                    device=device,
                 )
                 for _ in range(n)
             ]

@@ -30,7 +30,13 @@ class DecoderLayer(torch.nn.Module):
     _ln_3: torch.nn.LayerNorm
 
     def __init__(
-        self, model_dim: int, hidden_dim: int, w_q_k: int, w_v: int, heads: int
+        self,
+        model_dim: int,
+        hidden_dim: int,
+        w_q_k: int,
+        w_v: int,
+        heads: int,
+        device: torch.device,
     ) -> None:
         super().__init__()
 
@@ -40,16 +46,19 @@ class DecoderLayer(torch.nn.Module):
             w_v=w_v,
             heads=heads,
             masked=True,
+            device=device,
         )
         self._cross_attention = CrossAttention(
             model_dim=model_dim,
             w_q_k=w_q_k,
             w_v=w_v,
             heads=heads,
+            device=device,
         )
         self._feedforward = FeedForward(
             model_dim=model_dim,
             hidden_dim=hidden_dim,
+            device=device,
         )
         # No mention of learnable layer norm in the paper
         self._ln_1 = torch.nn.LayerNorm(

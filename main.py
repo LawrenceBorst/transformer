@@ -3,11 +3,14 @@ from data.tokenizer import Tokenizer
 from nlp_prep import download_corpora
 from data import save_tokenized_model, get_data_loaders
 from model import Transformer
-from engine import Engine, get_optimizer, get_loss_function
+from engine import Engine, get_optimizer, get_loss_function, set_seed, get_device
 import torch
 
 
 def main():
+    device: torch.device = get_device()
+    set_seed()
+
     download_corpora(
         train_url=misc_constants["DATASET_TRAIN_URL"],
         valid_url=misc_constants["DATASET_VALID_URL"],
@@ -32,6 +35,7 @@ def main():
         w_q_k=constants_local["DIM_K_Q"],
         w_v=constants_local["DIM_V"],
         heads=constants_local["HEADS"],
+        device=device,
     )
 
     optimizer, scheduler = get_optimizer(
@@ -60,7 +64,7 @@ def main():
         scheduler=scheduler,
         loss_fn=loss_fn,
         epochs=1,
-        device=torch.device("cpu"),
+        device=device,
         tokenizer=Tokenizer(
             spm_folder=misc_constants["SPM_FOLDER"],
         ),

@@ -9,18 +9,23 @@ class InputEmbedding(torch.nn.Module):
     Args:
         input_dim (int): the size of the input
         vocab_size (int): the size of the vocabulary
+        device (torch.device): the torch device
     """
 
     _input_embedding: torch.nn.Embedding
     _model_dim: int
+    _device: torch.device
 
-    def __init__(self, input_dim: int, vocab_size: int) -> None:
+    def __init__(self, input_dim: int, vocab_size: int, device: torch.device) -> None:
         super().__init__()
 
         self._input_embedding = torch.nn.Embedding(
-            embedding_dim=input_dim, num_embeddings=vocab_size
+            embedding_dim=input_dim,
+            num_embeddings=vocab_size,
+            device=device,
         )
         self._model_dim = input_dim
+        self._device = device
 
         return
 
@@ -48,7 +53,7 @@ class InputEmbedding(torch.nn.Module):
         pe[:, 0::2] = torch.sin(positions * trig_args)
         pe[:, 1::2] = torch.cos(positions * trig_args)
 
-        return pe
+        return pe.to(self._device)
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         pos_encoding: torch.Tensor = self._get_pos_encoding(len(x))
