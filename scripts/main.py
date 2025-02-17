@@ -1,9 +1,9 @@
-from constants import constants_local, misc_constants, constants_paper
-from data.tokenizer import Tokenizer
-from nlp_prep import download_corpora
-from data import save_tokenized_model, get_data_loaders
-from model import Transformer
-from engine import (
+from src.constants import constants_local, misc_constants, constants_paper
+from src.data.tokenizer import Tokenizer
+from src.nlp_prep import download_corpora
+from src.data import save_tokenized_model, get_data_loaders
+from src.model import Transformer
+from src.engine import (
     Engine,
     get_optimizer,
     get_loss_function,

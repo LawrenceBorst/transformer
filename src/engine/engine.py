@@ -4,6 +4,7 @@ import torch
 import torch.utils
 import torch.utils.data
 from tqdm.auto import tqdm
+from ..data import Tokenizer
 
 
 class Engine:
@@ -32,6 +33,7 @@ class Engine:
     _loss_fn: torch.nn.CrossEntropyLoss
     _epochs: int
     _device: torch.device
+    _tokenizer: Tokenizer
 
     def __init__(
         self,
@@ -44,7 +46,7 @@ class Engine:
         loss_fn: torch.nn.CrossEntropyLoss,
         epochs: int,
         device: torch.device,
-        tokenizer,
+        tokenizer: Tokenizer,
     ) -> None:
         self._model = model
         self._train_loader = train_loader

@@ -1,7 +1,7 @@
 from typing import Tuple
 import torch
 
-from model.transformer import Transformer
+from ..model.transformer import Transformer
 
 
 def get_optimizer(

@@ -1,9 +1,8 @@
 import os
 from typing import Optional, Tuple
-import torch
 from torch.utils.data.dataloader import DataLoader
 
-from data.dataset import TextData
+from .dataset import TextData
 
 
 def get_data_loaders(
