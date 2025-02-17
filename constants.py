@@ -122,6 +122,12 @@ class MiscConstants(TypedDict):
 
     SPM_FOLDER: str
 
+    """
+    Model directory to save the trained model to
+    """
+
+    MODEL_DIR: str
+
 
 constants_paper: Constants = {
     "ADAM_BETAS": (0.9, 0.98),
@@ -149,7 +155,7 @@ constants_local: Constants = {
     "HEADS": 8,
     "HIDDEN_DIM": 2_048,
     "LABEL_SMOOTHING_EPSILON": 0.1,
-    "MAX_SAMPLES": 250,
+    "MAX_SAMPLES": 25,
     "N_ENCODER_LAYERS": 6,
     "OUTPUT_DIM": 512,
     "SENTENCE_PAIRS_BATCH_SIZE": 10,
@@ -165,4 +171,5 @@ misc_constants: MiscConstants = {
     "DATASET_TRAIN_URL": "https://huggingface.co/datasets/bentrevett/multi30k/resolve/main/train.jsonl",
     "DATASET_VALID_URL": "https://huggingface.co/datasets/bentrevett/multi30k/resolve/main/val.jsonl",
     "DATASET_TEST_URL": "https://huggingface.co/datasets/bentrevett/multi30k/resolve/main/test.jsonl",
+    "MODEL_DIR": "saved_models",
 }

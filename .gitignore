@@ -3,3 +3,4 @@ venv/
 .DS_Store
 corpus/
 sentencepiece_model/
+saved_models/

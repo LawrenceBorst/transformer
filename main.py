@@ -3,7 +3,14 @@ from data.tokenizer import Tokenizer
 from nlp_prep import download_corpora
 from data import save_tokenized_model, get_data_loaders
 from model import Transformer
-from engine import Engine, get_optimizer, get_loss_function, set_seed, get_device
+from engine import (
+    Engine,
+    get_optimizer,
+    get_loss_function,
+    set_seed,
+    get_device,
+    save_model,
+)
 import torch
 
 
@@ -76,6 +83,11 @@ def main():
     print(losses)
     valid_loss = engine.validate()
     print(valid_loss)
+
+    save_model(
+        model=transformer,
+        target_dir=misc_constants["MODEL_DIR"],
+    )
 
     return
 
