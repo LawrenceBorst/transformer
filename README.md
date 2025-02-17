@@ -7,13 +7,13 @@ I highly recommend reading the chapter on transformers in Deep Learning<sup>[2]<
 # Run the Code
 First install packages with
 ```
-pip install -r requirements.txt
+poetry install
 ```
 
 With VSCode, you can simply run the debug scripts provided in the launch.json file, otherwise navigate to your project folder and type
 
 ```
-source bin/venv/activate
+poetry shell    # Enter virtual environment
 
 python -m scripts.main
 ```
