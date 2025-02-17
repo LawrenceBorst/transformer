@@ -1,4 +1,5 @@
 import sys
+from typing import Optional
 from torch.utils.data import Dataset
 
 
@@ -14,7 +15,10 @@ class TextData(Dataset[str]):
     _data: list[str]
     _max_samples: int
 
-    def __init__(self, dataset_path: str, max_samples: int = sys.maxsize) -> None:
+    def __init__(self, dataset_path: str, max_samples: Optional[int]) -> None:
+        if max_samples is None:
+            max_samples = sys.maxsize
+
         self._data = self._get_data(dataset_path)
         self._max_samples = max_samples
 

@@ -1,8 +1,10 @@
-import os
-from constants import constants_local, misc_constants
+from constants import constants_local, misc_constants, constants_paper
+from data.tokenizer import Tokenizer
 from nlp_prep import download_corpora
-from data import save_tokenized_model, TextData, Tokenizer
+from data import save_tokenized_model, get_data_loaders
 from model import Transformer
+from engine import Engine, get_optimizer, get_loss_function
+import torch
 
 
 def main():
@@ -22,12 +24,6 @@ def main():
         avoid_overwrite=True,
     )
 
-    train_dataset = TextData(
-        dataset_path=os.path.join(misc_constants["CORPUS_FOLDER"], "train.txt"),
-    )
-
-    tokenizer = Tokenizer(spm_folder=misc_constants["SPM_FOLDER"])
-
     transformer = Transformer(
         output_dim=constants_local["OUTPUT_DIM"],
         vocab_size=constants_local["VOCAB_SIZE"],
@@ -38,11 +34,42 @@ def main():
         heads=constants_local["HEADS"],
     )
 
-    x_in, x_out = tokenizer.encode(train_dataset[0]), tokenizer.encode(
-        train_dataset[0], shift_right=True
+    optimizer, scheduler = get_optimizer(
+        model=transformer,
+        betas=constants_local["ADAM_BETAS"],
+        eps=constants_local["ADAM_EPSILON"],
+        d_model=constants_local["OUTPUT_DIM"],
+        warmup_steps=constants_local["WARMUP_STEPS"],
+        batch_size=constants_local["BATCH_SIZE_TOKENS"],
+        paper_batch_size=constants_paper["BATCH_SIZE_TOKENS"],
     )
 
-    x = transformer(x_in, x_out)
+    loss_fn = get_loss_function()
+
+    train_loader, valid_loader, test_loader = get_data_loaders(
+        misc_constants["CORPUS_FOLDER"],
+        max_samples=constants_local["MAX_SAMPLES"],
+    )
+
+    engine = Engine(
+        model=transformer,
+        train_loader=train_loader,
+        valid_loader=valid_loader,
+        test_loader=test_loader,
+        optimizer=optimizer,
+        scheduler=scheduler,
+        loss_fn=loss_fn,
+        epochs=1,
+        device=torch.device("cpu"),
+        tokenizer=Tokenizer(
+            spm_folder=misc_constants["SPM_FOLDER"],
+        ),
+    )
+
+    losses = engine.train()
+    print(losses)
+    valid_loss = engine.validate()
+    print(valid_loss)
 
     return
 

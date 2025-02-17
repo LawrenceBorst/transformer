@@ -28,7 +28,7 @@ class Decoder(torch.nn.Module):
     ) -> None:
         super().__init__()
 
-        self._encoder_layers = torch.nn.ModuleList(
+        self._decoder_layers = torch.nn.ModuleList(
             [
                 DecoderLayer(
                     model_dim=model_dim,
@@ -48,7 +48,7 @@ class Decoder(torch.nn.Module):
         x: torch.Tensor,
         encoder_output: torch.Tensor,
     ) -> torch.Tensor:
-        for el in self._encoder_layers:
+        for el in self._decoder_layers:
             x = el(
                 x,
                 encoder_output,
