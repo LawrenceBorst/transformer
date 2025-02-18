@@ -1,6 +1,8 @@
 import os
 from typing import Tuple
-from torch.utils.data.datapipes.iter.sharding import ShardingFilterIterDataPipe
+from torch.utils.data.datapipes.iter.sharding import (
+    ShardingFilterIterDataPipe,
+)
 import shutil
 import sentencepiece as spm
 
@@ -50,7 +52,9 @@ def _get_corpus_paths(
     )
 
 
-def _move_to_sentencepiece_folder(spm_folder: str) -> None:
+def _move_to_sentencepiece_folder(
+    spm_folder: str,
+) -> None:
     """
     This is dumb, but the spm API does not let us specify an output path, so we do this
     """

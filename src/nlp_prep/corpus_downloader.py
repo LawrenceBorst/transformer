@@ -18,7 +18,10 @@ class CorpusDownloader:
     _avoid_overwrite: bool
 
     def __init__(
-        self, dataset_url: str, output_path: str, avoid_overwrite: bool = False
+        self,
+        dataset_url: str,
+        output_path: str,
+        avoid_overwrite: bool = False,
     ) -> None:
         self._dataset_url = dataset_url
         self._output_path = output_path
@@ -28,7 +31,10 @@ class CorpusDownloader:
         if self._avoid_overwrite and os.path.exists(self._output_path):
             return
 
-        os.makedirs(os.path.dirname(self._output_path), exist_ok=True)
+        os.makedirs(
+            os.path.dirname(self._output_path),
+            exist_ok=True,
+        )
 
         response: Response = requests.get(self._dataset_url, stream=True)
 
@@ -36,7 +42,8 @@ class CorpusDownloader:
             with open(self._output_path, "wb") as f:
                 for chunk in response.iter_content(chunk_size=8192):
                     """
-                    No sort of cleaning is wanted here, as we expect the model to take in data in the form of the dataset, to be autocompleted that is
+                    No sort of cleaning is wanted here, as we expect the model to take
+                    in data in the form of the dataset, to be autocompleted that is
                     """
                     f.write(chunk)
                 print(f"File downloaded successfully: {self._output_path}")

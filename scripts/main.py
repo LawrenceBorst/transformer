@@ -1,7 +1,14 @@
-from src.constants import constants_local, misc_constants, constants_paper
+from src.constants import (
+    constants_local,
+    misc_constants,
+    constants_paper,
+)
 from src.data.tokenizer import Tokenizer
 from src.nlp_prep import download_corpora
-from src.data import save_tokenized_model, get_data_loaders
+from src.data import (
+    save_tokenized_model,
+    get_data_loaders,
+)
 from src.model import Transformer
 from src.engine import (
     Engine,

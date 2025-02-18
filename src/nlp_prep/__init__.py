@@ -1,2 +1,2 @@
-from .corpus_downloader import *
-from .prep_data import *
+from .corpus_downloader import CorpusDownloader
+from .prep_data import download_corpora

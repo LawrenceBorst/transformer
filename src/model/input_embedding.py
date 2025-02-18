@@ -4,7 +4,8 @@ import torch
 
 class InputEmbedding(torch.nn.Module):
     """
-    This class provides input embeddings for a transformer model. It combines token embeddings with positional encodings to retain the order of tokens.
+    This class provides input embeddings for a transformer model. It combines token
+    embeddings with positional encodings to retain the order of tokens.
 
     Args:
         input_dim (int): the size of the input
@@ -40,10 +41,13 @@ class InputEmbedding(torch.nn.Module):
 
     def _get_pos_encoding(self, x_length: int) -> torch.Tensor:
         """
-        Returns the positional encodings, as a tensor of shape [x_length, self._model_dim]
+        Returns the positional encodings, as a tensor of shape
+        [x_length, self._model_dim]
 
-        Here the first dimension runs over the position in the embedded token, and the second over the model dimension
-        So that a single row corresponds to a positional encoding for a single token embedding
+        Here the first dimension runs over the position in the embedded token, and the
+        second over the model dimension
+        So that a single row corresponds to a positional encoding for a single token
+        embedding
         """
         pe = torch.zeros(x_length, self._model_dim)
 

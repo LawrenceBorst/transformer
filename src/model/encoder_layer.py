@@ -5,7 +5,8 @@ from .self_attention import SelfAttention
 
 class EncoderLayer(torch.nn.Module):
     """
-    A single encoder layer. This combines multihead attention, a skip connection and layer norm, feedforward layer, and another skip connection and layer norm
+    A single encoder layer. This combines multihead attention, a skip connection and
+    layer norm, feedforward layer, and another skip connection and layer norm
 
     Args:
         model_dim (int): the model dimension

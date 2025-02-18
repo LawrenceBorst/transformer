@@ -176,8 +176,13 @@ misc_constants: MiscConstants = {
     "TOKENIZATION_METHOD": "bpe",
     "SPM_FOLDER": "sentencepiece_model",
     "CORPUS_FOLDER": "corpus",
-    "DATASET_TRAIN_URL": "https://huggingface.co/datasets/bentrevett/multi30k/resolve/main/train.jsonl",
-    "DATASET_VALID_URL": "https://huggingface.co/datasets/bentrevett/multi30k/resolve/main/val.jsonl",
-    "DATASET_TEST_URL": "https://huggingface.co/datasets/bentrevett/multi30k/resolve/main/test.jsonl",
+    # fmt: off
+    "DATASET_TRAIN_URL":
+        "https://huggingface.co/datasets/bentrevett/multi30k/resolve/main/train.jsonl",
+    "DATASET_VALID_URL":
+        "https://huggingface.co/datasets/bentrevett/multi30k/resolve/main/val.jsonl",
+    "DATASET_TEST_URL":
+        "https://huggingface.co/datasets/bentrevett/multi30k/resolve/main/test.jsonl",
     "MODEL_DIR": "saved_models",
+    # fmt: on
 }

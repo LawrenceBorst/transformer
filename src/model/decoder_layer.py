@@ -81,7 +81,11 @@ class DecoderLayer(torch.nn.Module):
 
         return
 
-    def forward(self, x: torch.Tensor, encoder_output: torch.Tensor) -> torch.Tensor:
+    def forward(
+        self,
+        x: torch.Tensor,
+        encoder_output: torch.Tensor,
+    ) -> torch.Tensor:
         x = self._ln_1(x + self._masked_self_attention(self._dropout(x)))
 
         x = self._ln_2(x + self._dropout(self._cross_attention(x, encoder_output)))

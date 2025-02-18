@@ -31,7 +31,12 @@ class FeedForward(torch.nn.Module):
         he_2: float = math.sqrt(2 / hidden_dim)
 
         self._w_1 = torch.nn.Parameter(
-            torch.rand(model_dim, hidden_dim, device=device) * he_1,
+            torch.rand(
+                model_dim,
+                hidden_dim,
+                device=device,
+            )
+            * he_1,
             requires_grad=True,
         )
         self._b_1 = torch.nn.Parameter(
@@ -39,7 +44,12 @@ class FeedForward(torch.nn.Module):
             requires_grad=True,
         )
         self._w_2 = torch.nn.Parameter(
-            torch.rand(hidden_dim, model_dim, device=device) * he_2,
+            torch.rand(
+                hidden_dim,
+                model_dim,
+                device=device,
+            )
+            * he_2,
             requires_grad=True,
         )
         self._b_2 = torch.nn.Parameter(

@@ -43,7 +43,8 @@ class SelfAttention(torch.nn.Module, Attention):
         v = [v(x) for v in self._value_matrices]
 
         multihead: torch.Tensor = torch.concat(
-            [self._attention(q[h], k[h], v[h]) for h in range(self._heads)], dim=-1
+            [self._attention(q[h], k[h], v[h]) for h in range(self._heads)],
+            dim=-1,
         )
 
         return self._output(multihead)

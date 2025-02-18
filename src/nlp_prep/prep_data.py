@@ -11,7 +11,9 @@ def download_corpora(
     avoid_overwrite: bool = False,
 ):
     """
-    Downloads all the corpora (train, validation, and test) from the provided URLs and saves them to the respective files. If `avoid_overwrite` is set to True, it will avoid overwriting existing files.
+    Downloads all the corpora (train, validation, and test) from the provided URLs and
+    saves them to the respective files. If `avoid_overwrite` is set to True, it will
+    avoid overwriting existing files.
     """
     train_path, valid_path, test_path = get_corpus_paths(corpus_folder)
 
@@ -37,7 +39,9 @@ def download_corpora(
         downloader.save()
 
 
-def get_corpus_paths(corpus_folder: str) -> Tuple[str, str, str]:
+def get_corpus_paths(
+    corpus_folder: str,
+) -> Tuple[str, str, str]:
     return (
         os.path.join(corpus_folder, "train.txt"),
         os.path.join(corpus_folder, "valid.txt"),

@@ -1,5 +1,4 @@
 from .attention import Attention
-import math
 import torch
 
 
@@ -36,13 +35,18 @@ class CrossAttention(torch.nn.Module, Attention):
 
         return
 
-    def forward(self, x: torch.Tensor, encoder_output: torch.Tensor) -> torch.Tensor:
+    def forward(
+        self,
+        x: torch.Tensor,
+        encoder_output: torch.Tensor,
+    ) -> torch.Tensor:
         q = [q(x) for q in self._query_matrices]
         k = [k(encoder_output) for k in self._key_matrices]
         v = [v(encoder_output) for v in self._value_matrices]
 
         multihead: torch.Tensor = torch.concat(
-            [self._attention(q[h], k[h], v[h]) for h in range(self._heads)], dim=-1
+            [self._attention(q[h], k[h], v[h]) for h in range(self._heads)],
+            dim=-1,
         )
 
         return self._output(multihead)

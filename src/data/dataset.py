@@ -9,13 +9,18 @@ class TextData(Dataset[str]):
 
     Args:
         dataset_path (str): the path to the dataset
-        max_samples (int): the maximum number of samples, for limiting the size of the dataset
+        max_samples (int): the maximum number of samples, for limiting the size of the
+            dataset
     """
 
     _data: list[str]
     _max_samples: int
 
-    def __init__(self, dataset_path: str, max_samples: Optional[int]) -> None:
+    def __init__(
+        self,
+        dataset_path: str,
+        max_samples: Optional[int],
+    ) -> None:
         if max_samples is None:
             max_samples = sys.maxsize
 

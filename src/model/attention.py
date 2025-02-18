@@ -74,7 +74,8 @@ class Attention:
         self._masked = masked
         self._device = device
 
-        # We opt for He initialization, as the linear layers are followed by a ReLU non-linearity as per the paper
+        # We opt for He initialization, as the linear layers are followed by a ReLU
+        # non-linearity as per the paper
         for h in range(heads):
             torch.nn.init.kaiming_normal_(
                 self._query_matrices[h].weight,
@@ -97,13 +98,18 @@ class Attention:
         return
 
     def _attention(
-        self, q: torch.Tensor, k: torch.Tensor, v: torch.Tensor
+        self,
+        q: torch.Tensor,
+        k: torch.Tensor,
+        v: torch.Tensor,
     ) -> torch.Tensor:
         scores: torch.Tensor = q @ k.transpose(-2, -1) / math.sqrt(self._w_q_k)
 
         if self._masked:
             mask_dim: int = q.shape[0]
-            mask: torch.tensor = torch.tril(torch.ones(mask_dim, mask_dim)).to(self._device)
+            mask: torch.tensor = torch.tril(torch.ones(mask_dim, mask_dim)).to(
+                self._device
+            )
             scores = scores.masked_fill(mask == 0, float("-inf"))
 
         return torch.softmax(scores, dim=-1) @ v

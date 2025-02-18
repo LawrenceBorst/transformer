@@ -1,4 +1,3 @@
-import math
 from typing import List, Tuple
 import torch
 import torch.utils
@@ -82,7 +81,9 @@ class Engine:
 
         return total_loss
 
-    def train(self) -> List[Tuple[float, List[float]]]:
+    def train(
+        self,
+    ) -> List[Tuple[float, List[float]]]:
         self._model.train()
 
         losses: List[Tuple[float, List[float]]] = []
@@ -94,7 +95,9 @@ class Engine:
 
         return losses
 
-    def _train_epoch(self) -> Tuple[float, List[float]]:
+    def _train_epoch(
+        self,
+    ) -> Tuple[float, List[float]]:
         total_loss: float = 0
         cumulative_loss: List[float] = []
         last_reported_loss: float = 0

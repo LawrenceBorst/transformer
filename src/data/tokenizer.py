@@ -18,7 +18,11 @@ class Tokenizer:
             model_file=os.path.join(spm_folder, "spm.model")
         )
 
-    def encode(self, sentence: str, shift_right: bool = False) -> torch.IntTensor:
+    def encode(
+        self,
+        sentence: str,
+        shift_right: bool = False,
+    ) -> torch.IntTensor:
         result: torch.IntTensor = torch.IntTensor(self._sp.encode(sentence))
 
         if shift_right:
